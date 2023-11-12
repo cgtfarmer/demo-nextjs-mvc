@@ -8,7 +8,7 @@ const Component = ({ children }) => {
         <NavbarTop />
       </header>
 
-      <main className="container-fluid">
+      <main className="container">
         {children}
       </main>
 

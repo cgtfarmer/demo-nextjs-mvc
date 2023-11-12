@@ -12,6 +12,7 @@ async function handler(req, res) {
     console.log(req.body);
 
     const user = req.body;
+    user.id = (users.length + 1);
 
     users.push(user);
 
