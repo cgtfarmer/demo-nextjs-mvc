@@ -26,10 +26,12 @@ services:
     ports:
       - 3306:3306
     environment:
+      MYSQL_DATABASE: myDatabase
       MYSQL_ROOT_PASSWORD: super
-    # Uncomment these lines to enable persistence
-    # volumes:
-    #   - mysql:/var/lib/mysql
+    volumes:
+      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      # Uncomment this line to enable persistence
+      # - mysql:/var/lib/mysql
 
 # Uncomment these lines to enable persistence
 # volumes:

@@ -1,47 +1,51 @@
-import { users } from '@/data/users';
-
-function findIndexById(id) {
-  for (let i = 0; i < users.length; i++) {
-    const user = users[i];
-
-    if (user.id == id) {
-      return i;
-    }
-  }
-
-  return -1;
-}
+import { getDbConnection } from '@/data/db-connection';
 
 async function handler(req, res) {
   const { id } = req.query;
-  console.log(`[${req.method}] [Users]`);
+  console.log(`[${req.method}] [Users] ${id}`);
+
+  const dbConnection = await getDbConnection();
 
   switch(req.method) {
   case 'GET':
-    var index = findIndexById(id);
+    var results = await dbConnection.execute(`
+      SELECT *
+      FROM users
+      WHERE id = ${id}
+    `);
 
-    var user = users[index];
+    var user = results[0][0];
 
+    console.log(user);
     res.status(200).json(user);
     break;
 
   case 'PUT':
-    console.log(req.body);
-
-    var index = findIndexById(id);
-
     var user = req.body;
-    user.id = id;
+    console.log(user);
 
-    users[index] = user;
+    var sql = `
+      UPDATE users
+      SET firstName = ?,
+          lastName = ?,
+          age = ?,
+          weight = ?
+      WHERE id = ?
+    `;
+    var values = [user.firstName, user.lastName, user.age, user.weight, id];
+
+    await dbConnection.execute(sql, values);
 
     res.status(200).json(user);
     break;
 
   case 'DELETE':
-    var index = findIndexById(id);
+    var sql = `
+      DELETE FROM users
+      WHERE id = ?
+    `;
 
-    users.splice(index, 1);
+    await dbConnection.execute(sql, [id]);
 
     res.status(200).json({ msg: 'Deleted successfully' });
     break;
