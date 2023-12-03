@@ -1,28 +1,22 @@
-import Users from '@/data/users';
+import UserController from '@/backend/controller/user-controller';
 
 async function handler(req, res) {
-  console.log(`[${req.method}] [Users]`);
+  console.log(`==> Router: START [${req.method}] ${req.url}`);
 
   switch(req.method) {
   case 'GET':
-    const users = await Users.findAll();
-
-    console.log(users);
-    res.status(200).json(users);
+    await UserController.index(req, res);
     break;
 
   case 'POST':
-    const user = req.body;
-    console.log(user);
-
-    await Users.create(user);
-
-    res.status(200).json(user);
+    await UserController.create(req, res);
     break;
 
   default:
     res.status(400).json({ msg: 'Invalid route' });
   }
+
+  console.log(`==> Router: END [${req.method}] ${req.url}`);
 }
 
 export default handler;

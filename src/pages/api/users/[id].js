@@ -1,37 +1,26 @@
-import Users from '@/data/users';
+import UserController from '@/backend/controller/user-controller';
 
 async function handler(req, res) {
-  const { id } = req.query;
-  console.log(`[${req.method}] [Users] ${id}`);
-
-  let user = null;
+  console.log(`==> Router: START [${req.method}] ${req.url}`);
 
   switch(req.method) {
   case 'GET':
-    user = await Users.findById(id);
-
-    console.log(user);
-    res.status(200).json(user);
+    await UserController.show(req, res);
     break;
 
   case 'PUT':
-    user = req.body;
-    console.log(user);
-
-    await Users.update(id, user);
-
-    res.status(200).json(user);
+    await UserController.update(req, res);
     break;
 
   case 'DELETE':
-    await Users.destroy(id);
-
-    res.status(200).json({ msg: 'Deleted successfully' });
+    await UserController.destroy(req, res);
     break;
 
   default:
     res.status(400).json({ msg: 'Invalid route' });
   }
+
+  console.log(`==> Router: END [${req.method}] ${req.url}`);
 }
 
 export default handler;

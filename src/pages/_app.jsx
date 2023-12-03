@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@/styles/globals.css';import '@/styles/globals.css';
-import Layout from '@/components/layout/default-layout';
+import '@/frontend/styles/globals.css';
+import Layout from '@/frontend/components/layout/default-layout';
 
 const App = ({ Component, pageProps }) => {
   return (

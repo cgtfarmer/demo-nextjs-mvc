@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Table from 'react-bootstrap/Table';
 import Link from 'next/link';
-import Spacer from '@/components/spacer';
+import Spacer from '@/frontend/components/spacer';
 
 function Page() {
   const [user, setUser] = useState({});
