@@ -24,10 +24,6 @@ function Page() {
     fetchUsers();
   }, []);
 
-  // function deleteuser(prevusers, id) {
-  //   prevusers.filter((user) => user.id !== id);
-  // }
-
   const handleDelete = async (id) => {
     const confirmation = window.confirm('Are you sure you want to delete this?');
 
@@ -37,8 +33,8 @@ function Page() {
       });
 
       if (response.ok) {
-        setUsers((prevusers) =>
-          prevusers.filter((user) => user.id !== id)
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => user.id !== id)
         );
       } else {
         console.error(response);
@@ -74,7 +70,7 @@ function Page() {
     <>
       <h1 className="my-4 text-2xl">Users</h1>
 
-      <Button variant="primary" href="users/new">Create</Button>
+      <Button variant="primary" href="/users/new">Create</Button>
 
       <Table responsive="md" variant='dark' striped hover className="mt-3">
         <thead>

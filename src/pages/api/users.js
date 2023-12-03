@@ -1,35 +1,21 @@
-import { getDbConnection } from '@/data/db-connection';
+import Users from '@/data/users';
 
 async function handler(req, res) {
   console.log(`[${req.method}] [Users]`);
 
-  const dbConnection = await getDbConnection();
-
   switch(req.method) {
   case 'GET':
-    var results = await dbConnection.execute(`
-      SELECT *
-      FROM users
-    `);
-
-    const users = results[0];
+    const users = await Users.findAll();
 
     console.log(users);
     res.status(200).json(users);
     break;
 
   case 'POST':
-    console.log(req.body);
-
     const user = req.body;
+    console.log(user);
 
-    var sql = `
-      INSERT INTO users (firstName, lastName, age, weight)
-      VALUES (?, ?, ?, ?)
-    `;
-    var values = [user.firstName, user.lastName, user.age, user.weight];
-
-    await dbConnection.execute(sql, values)
+    await Users.create(user);
 
     res.status(200).json(user);
     break;
